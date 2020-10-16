@@ -38,3 +38,30 @@ if (moisturePercentage > 56) {
 if (! AgricultureData.publish(moisturePercentage)) {                    
   delay(5000);  
 }
+          
+Adafruit_MQTT_Subscribe * subscription; //read subsribed feeds
+while ((subscription = mqtt.readSubscription(5000)))
+     {
+   if (subscription == &LED)
+     {
+      Serial.println((char*) LED.lastread);
+   if (!strcmp((char*) LED.lastread, "OFF"))
+      {
+        digitalWrite(ledPin, HIGH);
+    }
+    if (!strcmp((char*) LED.lastread, "ON"))
+      {
+        digitalWrite(ledPin, LOW);
+    }
+ }
+if (subscription == &Pump)
+     {
+      Serial.println((char*) Pump.lastread);
+   if (!strcmp((char*) Pump.lastread, "OFF"))
+      {
+        digitalWrite(motorPin, HIGH);
+    }
+     if (!strcmp((char*) Pump.lastread, "ON"))
+      {
+        digitalWrite(motorPin, LOW);
+    }
