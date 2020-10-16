@@ -21,3 +21,20 @@ if (ldrStatus <= 200) {
 else {
    digitalWrite(ledPin, LOW);
 }
+
+moisturePercentage = ( 100.00 - ( (analogRead(moisturePin) / 1023.00) * 100.00 ) ); //read and publish moisture sensor data   
+Serial.print(moisturePercentage);
+Serial.println("%");
+  }
+if (moisturePercentage < 50) {
+  digitalWrite(motorPin, HIGH);         // tun on motor
+}
+if (moisturePercentage > 50 && moisturePercentage < 55) {
+  digitalWrite(motorPin, HIGH);        //turn on motor pump
+}
+if (moisturePercentage > 56) {
+  digitalWrite(motorPin, LOW);          // turn off mottor
+}
+if (! AgricultureData.publish(moisturePercentage)) {                    
+  delay(5000);  
+}
